@@ -45,6 +45,7 @@ public class MapActivity extends AppCompatActivity {
             }
         });
     }
+    // что нибудь
 
 
     @Override
