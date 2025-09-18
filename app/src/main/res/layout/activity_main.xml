@@ -1,0 +1,339 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F6F6F6"
+    android:padding="16dp"
+    tools:context=".MainActivity">
+
+    <!-- Логотип и Название -->
+
+    <TextView
+        android:id="@+id/redText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="30dp"
+        android:text="RED"
+        android:textColor="@android:color/holo_red_dark"
+        android:textSize="32sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/atomText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@id/redText"
+        android:layout_marginStart="8dp"
+        android:layout_toEndOf="@id/redText"
+        android:text="ATOM"
+        android:textColor="@android:color/black"
+        android:textSize="32sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/programTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/atomText"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="-8dp"
+        android:text="SignalTester"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+
+    <!-- Секция информации о сети -->
+
+    <ImageView
+        android:id="@+id/logo"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="11dp"
+        android:layout_marginEnd="20dp"
+        android:src="@mipmap/ic_launcher_foreground"
+        android:clickable="true"
+        android:onClick="logo1"
+        />
+
+    <TextView
+        android:id="@+id/networkInfoLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/programTitle"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="41dp"
+        android:text="Информация о сети"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+
+    <!-- Имя оператора -->
+    <TextView
+        android:id="@+id/operatorName"
+        android:layout_width="130dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/networkInfoLabel"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:text="Имя оператора:"
+        android:textAlignment="textEnd"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/textOperatorName"
+        android:layout_width="221dp"
+        android:layout_height="20dp"
+        android:layout_below="@id/networkInfoLabel"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="20dp"
+        android:layout_toEndOf="@id/operatorName"
+        android:text=""
+        android:textSize="16sp" />
+
+    <!-- Статус сигнала -->
+    <TextView
+        android:id="@+id/signalStatus"
+        android:layout_width="130dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/operatorName"
+        android:layout_marginStart="16dp"
+        android:text="Статус сигнала:"
+        android:textAlignment="textEnd"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/textSignalStatus"
+        android:layout_width="221dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/operatorName"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="20dp"
+        android:layout_toEndOf="@id/signalType"
+        android:text=""
+        android:textSize="14sp" />
+
+    <!-- Тип сигнала -->
+    <TextView
+        android:id="@+id/signalType"
+        android:layout_width="130dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/signalStatus"
+        android:layout_marginStart="16dp"
+        android:text="Тип сигнала:"
+        android:textAlignment="textEnd"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/signalTypeConnect"
+        android:layout_width="221dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/signalStatus"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="20dp"
+        android:layout_toEndOf="@id/signalType"
+        android:text=""
+        android:textSize="16sp" />
+
+    <!-- Сила сигнала -->
+    <TextView
+        android:id="@+id/signalStrength"
+        android:layout_width="130dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/signalType"
+        android:layout_marginStart="16dp"
+        android:text="Сила сигнала:"
+        android:textAlignment="textEnd"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/textValueConnect"
+        android:layout_width="221dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/signalType"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="20dp"
+        android:layout_toEndOf="@id/signalStrength"
+        android:text=""
+        android:textSize="16sp" />
+
+    <!-- Широта -->
+    <TextView
+        android:id="@+id/latitude"
+        android:layout_width="130dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/signalStrength"
+        android:layout_marginStart="16dp"
+        android:text="Широта:"
+        android:textAlignment="textEnd"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/textX"
+        android:layout_width="221dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/signalStrength"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="20dp"
+        android:layout_toEndOf="@id/latitude"
+        android:text=""
+        android:textSize="16sp" />
+
+    <!-- Долгота -->
+    <TextView
+        android:id="@+id/longitude"
+        android:layout_width="130dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/latitude"
+        android:layout_marginStart="16dp"
+        android:text="Долгота:"
+        android:textAlignment="textEnd"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/textY"
+        android:layout_width="221dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/latitude"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="20dp"
+        android:layout_toEndOf="@id/longitude"
+        android:text=""
+        android:textSize="16sp" />
+
+    <!-- Выгрузка -->
+    <TextView
+        android:id="@+id/uploadSpeed"
+        android:layout_width="130dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/longitude"
+        android:layout_marginStart="16dp"
+        android:text="Скачать:"
+        android:textAlignment="textEnd"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/textUpload"
+        android:layout_width="221dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/longitude"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="20dp"
+        android:layout_toEndOf="@id/uploadSpeed"
+        android:text=""
+        android:textSize="16sp" />
+
+    <!-- Закачка -->
+    <TextView
+        android:id="@+id/downloadSpeed"
+        android:layout_width="130dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/uploadSpeed"
+        android:layout_marginStart="16dp"
+        android:text="Загрузить:"
+        android:textAlignment="textEnd"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/textDownload"
+        android:layout_width="221dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/uploadSpeed"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="20dp"
+        android:layout_toEndOf="@id/downloadSpeed"
+        android:text=""
+        android:textSize="16sp" />
+
+    <!-- Секция статуса -->
+    <TextView
+        android:id="@+id/statusLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/downloadSpeed"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="30dp"
+        android:text="Статус"
+        android:textAlignment="center"
+        android:textSize="16sp"
+        android:textStyle="bold" />
+
+    <!-- Переключатель автоматической отправки -->
+    <TextView
+        android:id="@+id/textStatusPost"
+        android:layout_width="305dp"
+        android:layout_height="84dp"
+        android:layout_below="@id/statusLabel"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="2dp"
+        android:textAlignment="center"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/autoSendLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/textStatusPost"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="22dp"
+        android:layout_marginTop="21dp"
+        android:text="Автоматическая отправка"
+        android:textSize="18sp" />
+
+    <Switch
+        android:id="@+id/Auto_Man"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/textStatusPost"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="21dp"
+        android:layout_toEndOf="@+id/autoSendLabel" />
+
+    <!-- Кнопки Обновить и Отправить -->
+    <Button
+        android:id="@+id/Reload"
+        android:layout_width="200dp"
+        android:layout_height="52dp"
+        android:layout_below="@id/Auto_Man"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:backgroundTint="@color/Gray"
+        android:text="Обновить"
+        android:textColor="#FFFFFF" />
+
+    <Button
+        android:id="@+id/SendPos"
+        android:layout_width="200dp"
+        android:layout_height="52dp"
+        android:layout_below="@id/Reload"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:backgroundTint="@color/Gray"
+        android:text="Отправить"
+        android:textColor="#FFFFFF" />
+
+<!--    <Button-->
+<!--        android:id="@+id/Mappage"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_alignParentTop="true"-->
+<!--        android:layout_alignParentEnd="true"-->
+<!--        android:layout_marginTop="376dp"-->
+<!--        android:layout_marginEnd="52dp"-->
+<!--        android:text="Mappage" />-->
+
+</RelativeLayout>

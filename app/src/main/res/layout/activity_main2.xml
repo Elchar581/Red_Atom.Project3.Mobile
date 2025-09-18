@@ -1,0 +1,37 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F6F6F6"
+    android:padding="16dp"
+    tools:context=".MainActivity">
+
+    <!-- Логотип и Название -->
+
+
+    <ImageView
+        android:id="@+id/logo2"
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="160dp"
+        android:src="@mipmap/ic_launcher_f_foreground" />
+
+    <TextView
+        android:id="@+id/programTitle2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/logo2"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="-80dp"
+        android:text="SignalTester"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+
+    <!-- Секция информации о сети -->
+
+
+
+</RelativeLayout>
