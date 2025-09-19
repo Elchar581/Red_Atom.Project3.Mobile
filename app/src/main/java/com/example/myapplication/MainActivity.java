@@ -87,6 +87,8 @@ public class MainActivity extends AppCompatActivity implements LocListenerInterf
     public String lvl_signal_type;
     public int download;
     public int upload;
+
+    public Button MainVievButton;
     boolean isMapKitInitialized = false;
 
     // Главный метод
@@ -117,9 +119,7 @@ public class MainActivity extends AppCompatActivity implements LocListenerInterf
         operator_name = operatorName;
         textOperatorName.setText(operator_name);
 
-
         // Вывод силы сигнала
-
         textValueConnect = findViewById(R.id.textValueConnect);
         textTypeConnect = findViewById(R.id.signalTypeConnect);
 
@@ -130,6 +130,7 @@ public class MainActivity extends AppCompatActivity implements LocListenerInterf
 
         // Запрос разрешения
         CheckPremission();
+
         if(startLocationUpdates()){
             // Получение уровня сигнала
             lvl_signal = operatorInfoHelper.getlvl();
@@ -137,8 +138,6 @@ public class MainActivity extends AppCompatActivity implements LocListenerInterf
             textValueConnect.setText(String.valueOf(lvl_signal));
             textTypeConnect.setText(lvl_signal_type);
         }
-
-
 
         // Вывод координат
         textX = findViewById(R.id.textX);
@@ -191,6 +190,20 @@ public class MainActivity extends AppCompatActivity implements LocListenerInterf
         MapLayot = (View) findViewById(R.id.MapConstLayout);
         MapView mapView = findViewById(R.id.mapview);
         MapObjectCollection yandexMap = mapView.getMapWindow().getMap().getMapObjects();
+
+        MainVievButton = (Button) findViewById(R.id.MainVievButton);
+
+        MainVievButton.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view) {
+                update();
+
+                MapLayot.setVisibility(View.INVISIBLE);
+                Reload.setVisibility(View.VISIBLE);
+                SendPos.setVisibility(View.VISIBLE);
+            }
+        });
 
         Mapviev.setOnClickListener(new View.OnClickListener() {
             @Override

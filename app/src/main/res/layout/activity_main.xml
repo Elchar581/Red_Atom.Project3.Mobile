@@ -30,7 +30,7 @@
             <Button
                 android:id="@+id/MainVievButton"
                 android:layout_width="335dp"
-                android:layout_height="wrap_content"
+                android:layout_height="100dp"
                 android:layout_alignParentStart="true"
                 android:layout_alignParentTop="true"
                 android:layout_alignParentEnd="true"
