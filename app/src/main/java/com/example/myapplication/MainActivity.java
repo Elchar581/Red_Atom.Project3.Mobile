@@ -122,18 +122,22 @@ public class MainActivity extends AppCompatActivity implements LocListenerInterf
 
         textValueConnect = findViewById(R.id.textValueConnect);
         textTypeConnect = findViewById(R.id.signalTypeConnect);
-        lvl_signal = operatorInfoHelper.getlvl();
-        lvl_signal_type = operatorInfoHelper.getlvl_type();
-        textValueConnect.setText(String.valueOf(lvl_signal));
-        textTypeConnect.setText(lvl_signal_type);
-
 
         // Подключение модуля (создание экзепляра класса GetCoordsListener)
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         myLoclistener = new GetCoordsListener();
         myLoclistener.setLocListenerInterface((LocListenerInterface) this);
+
+        // Запрос разрешения
         CheckPremission();
         startLocationUpdates();
+
+        // Получение уровня сигнала
+        lvl_signal = operatorInfoHelper.getlvl();
+        lvl_signal_type = operatorInfoHelper.getlvl_type();
+        textValueConnect.setText(String.valueOf(lvl_signal));
+        textTypeConnect.setText(lvl_signal_type);
+
         // Вывод координат
         textX = findViewById(R.id.textX);
         textY = findViewById(R.id.textY);
