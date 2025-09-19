@@ -130,13 +130,15 @@ public class MainActivity extends AppCompatActivity implements LocListenerInterf
 
         // Запрос разрешения
         CheckPremission();
-        startLocationUpdates();
+        if(startLocationUpdates()){
+            // Получение уровня сигнала
+            lvl_signal = operatorInfoHelper.getlvl();
+            lvl_signal_type = operatorInfoHelper.getlvl_type();
+            textValueConnect.setText(String.valueOf(lvl_signal));
+            textTypeConnect.setText(lvl_signal_type);
+        }
 
-        // Получение уровня сигнала
-        lvl_signal = operatorInfoHelper.getlvl();
-        lvl_signal_type = operatorInfoHelper.getlvl_type();
-        textValueConnect.setText(String.valueOf(lvl_signal));
-        textTypeConnect.setText(lvl_signal_type);
+
 
         // Вывод координат
         textX = findViewById(R.id.textX);
@@ -562,7 +564,7 @@ public class MainActivity extends AppCompatActivity implements LocListenerInterf
         MapKitFactory.getInstance().onStop();
     }
 
-    private void startLocationUpdates() {
+    private boolean startLocationUpdates() {
         try {
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
                     == PackageManager.PERMISSION_GRANTED) {
@@ -581,10 +583,12 @@ public class MainActivity extends AppCompatActivity implements LocListenerInterf
                 if (lastKnownLocation != null) {
                     OnLocationChange(lastKnownLocation);
                 }
+                return true;
             }
         } catch (SecurityException e) {
             Log.e("Location", "SecurityException: " + e.getMessage());
         }
+        return false;
     }
 
     @Override
