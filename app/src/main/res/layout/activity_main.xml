@@ -4,11 +4,45 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#F6F6F6"
-    android:padding="16dp"
     tools:context=".MainActivity">
 
     <!-- Логотип и Название -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/MapConstLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentBottom="true"
+        android:layout_gravity="bottom"
+        android:background="@android:color/white"
+        android:elevation="1dp"
+        android:visibility="invisible"
+        >
 
+        <com.yandex.mapkit.mapview.MapView
+            android:id="@+id/mapview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:layout_editor_absoluteY="53dp" >
+
+            <Button
+                android:id="@+id/MainVievButton"
+                android:layout_width="335dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginStart="46dp"
+                android:layout_marginTop="17dp"
+                android:layout_marginEnd="31dp"
+                android:layout_marginBottom="666dp"
+                android:text="Главная" />
+        </com.yandex.mapkit.mapview.MapView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
     <TextView
         android:id="@+id/redText"
         android:layout_width="wrap_content"
@@ -58,7 +92,6 @@
         android:layout_marginEnd="20dp"
         android:src="@mipmap/ic_launcher_foreground"
         android:clickable="true"
-        android:onClick="logo1"
         />
 
     <TextView

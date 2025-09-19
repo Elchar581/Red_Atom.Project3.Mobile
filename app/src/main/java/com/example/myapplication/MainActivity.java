@@ -16,6 +16,7 @@ import android.net.ConnectivityManager;
 import android.net.Network;
 import android.net.NetworkCapabilities;
 import android.provider.Settings;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
@@ -27,8 +28,18 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintSet;
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+
 import com.google.gson.Gson;
+import com.yandex.mapkit.MapKitFactory;
+import com.yandex.mapkit.geometry.Point;
+import com.yandex.mapkit.map.CameraPosition;
+import com.yandex.mapkit.map.MapObjectCollection;
+import com.yandex.mapkit.map.PlacemarkMapObject;
+import com.yandex.mapkit.mapview.MapView;
+
 import java.io.IOException;
 
 import java.util.Date;
@@ -54,6 +65,8 @@ public class MainActivity extends AppCompatActivity implements LocListenerInterf
     private TextView textSignalStatus;
 
     private Button Reload;
+
+    private View MapLayot;
     private Button SendPos;
     private Switch Auto_Man;
     // Подключение и выделение памяти модулей
@@ -64,25 +77,35 @@ public class MainActivity extends AppCompatActivity implements LocListenerInterf
 
     public String coord_X;
     public String coord_Y;
+
+    public double coord_X_Double;
+
+    public double coord_Y_Double;
+
     public String operator_name;
     public String lvl_signal;
     public String lvl_signal_type;
     public int download;
     public int upload;
-
+    boolean isMapKitInitialized = false;
 
     // Главный метод
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        if (!isMapKitInitialized) {
+
+            MapKitFactory.initialize(this);
+            isMapKitInitialized = true;
+        }
         setContentView(R.layout.activity_main);
         // Задержка 2 секунды перед переключением на основной интерфейс
 
 
         //проверка включенности гелокации
         CheckLocation();
-
         // Подключение модуля (создание экзепляра класса GetOperators)
         operatorInfoHelper = new GetOperators(this);
 
@@ -110,7 +133,7 @@ public class MainActivity extends AppCompatActivity implements LocListenerInterf
         myLoclistener = new GetCoordsListener();
         myLoclistener.setLocListenerInterface((LocListenerInterface) this);
         CheckPremission();
-
+        startLocationUpdates();
         // Вывод координат
         textX = findViewById(R.id.textX);
         textY = findViewById(R.id.textY);
@@ -159,17 +182,25 @@ public class MainActivity extends AppCompatActivity implements LocListenerInterf
         Reload = (Button) findViewById(R.id.Reload);
         SendPos = (Button) findViewById(R.id.SendPos);
         ImageView Mapviev =  findViewById(R.id.logo);
+        MapLayot = (View) findViewById(R.id.MapConstLayout);
+        MapView mapView = findViewById(R.id.mapview);
+        MapObjectCollection yandexMap = mapView.getMapWindow().getMap().getMapObjects();
 
         Mapviev.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                update();
+
+                MapLayot.setVisibility(View.VISIBLE);
+                Reload.setVisibility(View.INVISIBLE);
+                SendPos.setVisibility(View.INVISIBLE);
 //                String url = "https://map.red-atom.ru";
 //                Intent openPage = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
 //                startActivity(openPage);
-                Intent map = new Intent(MainActivity.this, MapActivity.class);
-                map.putExtra("Cord X",coord_X);
-                map.putExtra("Cord Y",coord_Y);
-                v.getContext().startActivity(map);
+//                Intent map = new Intent(MainActivity.this, MapActivity.class);
+//                map.putExtra("Cord X",coord_X);
+//                map.putExtra("Cord Y",coord_Y);
+//                v.getContext().startActivity(map);
             }
 
 
@@ -477,8 +508,8 @@ public class MainActivity extends AppCompatActivity implements LocListenerInterf
     }
 
     private void CheckPremission() {
-        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            requestPermissions(new String[]{android.Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION}, 100);
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(new String[]{Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION}, 100);
         } else {
             locationManager.requestLocationUpdates(LocationManager.FUSED_PROVIDER, 2000, 10, myLoclistener);
 
@@ -487,8 +518,88 @@ public class MainActivity extends AppCompatActivity implements LocListenerInterf
     @Override
     public void OnLocationChange(Location loc) {
         coord_X = String.valueOf(loc.getLongitude());
-        coord_Y = String.valueOf(loc.getLongitude());
-        textX.setText(coord_X.substring(0, Math.min(9, coord_X.length())));
-        textY.setText(coord_Y.substring(0, Math.min(9, coord_Y.length())));
+        coord_Y = String.valueOf(loc.getLatitude());
+        coord_X_Double = loc.getLongitude();
+        coord_Y_Double =loc.getLatitude();
+        textX.setText(String.format("%.6f", coord_X_Double));
+        textY.setText(String.format("%.6f", coord_Y_Double));
+
+        // Логи для отладки
+        Log.d("Location", "Longitude (X): " + coord_X_Double);
+        Log.d("Location", "Latitude (Y): " + coord_Y_Double);
+        Log.d("Location", "Accuracy: " + loc.getAccuracy() + "m");
+        updateMapWithLocation(coord_Y_Double, coord_X_Double);
     }
+    private void updateMapWithLocation(double lat, double lng) {
+        MapView mapView = findViewById(R.id.mapview);
+        MapObjectCollection yandexMap = mapView.getMapWindow().getMap().getMapObjects();
+        PlacemarkMapObject placemark = yandexMap.addPlacemark(new Point(coord_Y_Double, coord_X_Double));
+        mapView.getMapWindow().getMap().move(
+                new CameraPosition(new Point(coord_Y_Double, coord_X_Double),16f,0f,0f)
+        );
+    }
+    @Override
+    protected void onStart(){
+        super.onStart();
+        MapView mapView = findViewById(R.id.mapview);
+        MapKitFactory.getInstance().onStart();
+        if (mapView != null) {
+            mapView.onStart();
+        }
+
+    }
+    @Override
+    protected void onStop(){
+        super.onStop();
+        MapView mapView = findViewById(R.id.mapview);
+        if (mapView != null) {
+            mapView.onStop();
+        }
+        MapKitFactory.getInstance().onStop();
+    }
+
+    private void startLocationUpdates() {
+        try {
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+                    == PackageManager.PERMISSION_GRANTED) {
+
+                // Запрос обновлений местоположения
+                locationManager.requestLocationUpdates(
+                        LocationManager.GPS_PROVIDER,
+                        1000,      // интервал в миллисекундах
+                        1,         // минимальное расстояние в метрах
+                        myLoclistener
+                );
+
+                // Также можно получить последнее известное местоположение
+                Location lastKnownLocation = locationManager.getLastKnownLocation(
+                        LocationManager.GPS_PROVIDER);
+                if (lastKnownLocation != null) {
+                    OnLocationChange(lastKnownLocation);
+                }
+            }
+        } catch (SecurityException e) {
+            Log.e("Location", "SecurityException: " + e.getMessage());
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        // Останавливаем обновления местоположения для экономии батареи
+        if (locationManager != null) {
+            locationManager.removeUpdates(myLoclistener);
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        // Возобновляем обновления при возвращении в приложение
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+                == PackageManager.PERMISSION_GRANTED) {
+            startLocationUpdates();
+        }
+    }
+
 }

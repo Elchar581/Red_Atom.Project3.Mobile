@@ -28,14 +28,15 @@ public class MapActivity extends AppCompatActivity {
         String Cord_X = extras.getString("Cord X");
         String Cord_Y = extras.getString("Cord Y");
         MapKitFactory.setApiKey("4b33a376-85fa-4d02-9992-cd5464bfd70c");
+        onPause();
         MapKitFactory.initialize(this);
         setContentView(R.layout.activity_map);
         MapView mapView = findViewById(R.id.mapview);
         MainViev = findViewById(R.id.MainViev);
         com.yandex.mapkit.map.MapObjectCollection yandexMap = mapView.getMapWindow().getMap().getMapObjects();
-        PlacemarkMapObject placemark = yandexMap.addPlacemark(new Point(Double.parseDouble(Cord_Y), Double.parseDouble(Cord_X)));
+        PlacemarkMapObject placemark = yandexMap.addPlacemark(new Point(Double.parseDouble(Cord_Y.trim()), Double.parseDouble(Cord_X.trim())));
         mapView.getMapWindow().getMap().move(
-                new CameraPosition(new Point(Double.parseDouble(Cord_Y), Double.parseDouble(Cord_X)),13f,0f,0f)
+                new CameraPosition(new Point(Double.parseDouble(Cord_Y.trim()), Double.parseDouble(Cord_X.trim())),13f,0f,0f)
         );
         MainViev.setOnClickListener(new View.OnClickListener() {
             @Override

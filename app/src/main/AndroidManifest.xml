@@ -10,6 +10,7 @@
     <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
 
     <application
+        android:name=".MyApplication"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -19,6 +20,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MyApplication"
         tools:targetApi="31">
+        <meta-data
+            android:name="com.yandex.mapkit.apikey"
+            android:value="4b33a376-85fa-4d02-9992-cd5464bfd70c" />
         <activity
             android:name=".MapActivitya"
             android:exported="false"
