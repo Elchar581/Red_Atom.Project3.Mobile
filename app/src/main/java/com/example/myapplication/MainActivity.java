@@ -466,7 +466,13 @@ public class MainActivity extends AppCompatActivity implements LocListenerInterf
                             throw new IOException("Запрос к серверу не был успешен: " +
                                     response.code() + " " + response.message());
                         }
-                        textStatusPost.setText(response.body().string());
+                        runOnUiThread(() -> {
+                            try {
+                                textStatusPost.setText(response.body().string());
+                            } catch (IOException e) {
+                                throw new RuntimeException(e);
+                            }
+                        });
                         if (response.body().string() == "Получено") {
                             //Очистка файла после получения(отправки) данных
                             FileOutputStream fos = openFileOutput("storage.json", MODE_PRIVATE);
@@ -520,7 +526,7 @@ public class MainActivity extends AppCompatActivity implements LocListenerInterf
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if(requestCode == 100 && grantResults[0] == RESULT_OK)
+        if(requestCode == 100 && grantResults[0] == PackageManager.PERMISSION_GRANTED)
         {
             CheckPremission();
         }

@@ -1,10 +1,6 @@
 package com.example.myapplication;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.pm.PackageManager;
-import android.os.Build;
-import android.telephony.CellSignalStrength;
 import android.telephony.CellInfo;
 import android.telephony.CellInfoCdma;
 import android.telephony.CellInfoGsm;
@@ -19,10 +15,8 @@ import android.telephony.CellSignalStrengthLte;
 import android.telephony.CellSignalStrengthWcdma;
 import android.telephony.TelephonyManager;
 
-import androidx.core.app.ActivityCompat;
 
 import java.util.List;
-import java.util.Objects;
 
 public class GetOperators {
     private Context context;
@@ -32,11 +26,6 @@ public class GetOperators {
         this.context = context;
     }
 
-    // Метод для получения названия оператора связи
-    public String getOperatorName() {
-        TelephonyManager telephonyManager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
-        return telephonyManager.getNetworkOperatorName();
-    }
 
 
     // Карта, которая содержит соответствие операторов и их ID
